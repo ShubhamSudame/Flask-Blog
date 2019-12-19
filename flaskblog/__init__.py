@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_hashing import Hashing
 from flask_login import LoginManager
+from flask_mail import Mail
+import os
 
 app = Flask(__name__)
 # Secret key will protect against modifying cookies or cross-site request forgery attacks
@@ -15,5 +17,11 @@ hashing = Hashing(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL PASSWORD')
+mail = Mail(app)
 
 from flaskblog import routes
